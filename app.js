@@ -1,6 +1,21 @@
 var express = require('express');
 var app = express();
 var port = 3000;
+var nunjucks = require('nunjucks');
+
+var text = {
+  title: 'An Example',
+  people: [
+    {name:'Gandalf'},
+    {name:'Frodo'},
+    {name:'Hermione'}
+  ]
+}
+
+nunjucks.configure('views', {noCache: true});
+nunjucks.render('index.html', text,function(err,result) {
+  console.log(result)
+});
 
 app.listen(port,function() {
   console.log('hi');
@@ -9,7 +24,7 @@ app.listen(port,function() {
 app.use(function (req, res, next) {
   console.log('Time:', Date.now());
   next();
-});
+})
 
 app.get('/',function(request,response,next) {
   response.send('welcome');
